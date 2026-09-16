@@ -1,9 +1,17 @@
-# Rexecode Live — version ultra premium (Streamlit)
+# Rexecode Live — version premium (Streamlit)
 
-Produit haut de gamme, **tout-Streamlit** : verdict, voix de l'économiste, moteurs,
-preuve (track record fiable & sans biais), suite de baromètres, premium, alertes,
-note de comité. Thème **clair/sombre automatique** (suit l'appareil). Graphiques en
-**SVG sur mesure** (pas de widgets génériques). *API & widget viendront en dernier.*
+Produit haut de gamme, **tout-Streamlit**. Menu **nommé par le contenu**, lisible par
+tous les profils (dirigeants, fédérations, financiers, experts comme généralistes) :
+
+1. **Prévision de croissance** — le chiffre du trimestre en cours + le suivant, le
+   commentaire de l'économiste, ce qui fait bouger la prévision, sa trajectoire épurée.
+2. **Notre méthode** — comment nous prévoyons (les trois modèles + la combinaison, en clair).
+3. **Notre fiabilité** — notre historique de précision, fiable & sans biais (nous uniquement).
+4. **Nos autres prévisions** — les baromètres à venir (inflation, emploi, industrie…).
+
+Thème **clair/sombre automatique** (suit l'appareil), **pleine largeur adaptative**
+(remplit les grands écrans, lisible sur mobile), graphiques en **SVG sur mesure**.
+Note de synthèse téléchargeable. *API & widget viendront en dernier.*
 
 Modèle & application : **Anthony Morlet-Lavidalie**, Rexecode.
 
@@ -12,8 +20,8 @@ Modèle & application : **Anthony Morlet-Lavidalie**, Rexecode.
 cd "C:\projets_claude\projet application prévision"
 .venv\Scripts\python.exe -m streamlit run rexlive\app.py
 ```
-Ouvre l'adresse affichée (http://localhost:8501). Navigation par les onglets en haut
-(Produit / Suite / Preuve / Alertes / Premium) et bascule **Décideur / Analyste**.
+Ouvre l'adresse affichée (http://localhost:8501). Navigation par les onglets en haut :
+**Prévision de croissance / Notre méthode / Notre fiabilité / Nos autres prévisions**.
 
 **Avec des collègues (même réseau)** :
 ```
