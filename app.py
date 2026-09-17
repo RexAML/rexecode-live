@@ -111,12 +111,22 @@ T3PTS = [("juin", _q3("avant T", 0.304), rstage.get("avant T", 0.231)),
          ("sept.", _q3("aujourd'hui", T3), rstage.get("fin M3", 0.215))]
 T4PT = (T4, RMSE1)  # T4 : estimation actuelle, ±1 écart-type
 
+# décomposition du chiffre publié : les 3 modèles → leur moyenne
+MODELF = [("Forêt aléatoire", f3.get("RandomForest", 0.163)),
+          ("MIDAS", f3.get("MIDAS", 0.311)),
+          ("ElasticNet", f3.get("ElasticNet", 0.139))]
+AVG3 = round(sum(v for _, v in MODELF) / len(MODELF), 3)
+
+# backtest : nowcast (combi) vs réalisé (INSEE), hors trimestres Covid 2020-2021
+tv2 = loadjson("chart_v2.json", [])
+TRACK = [(x["t"], x["a"], x["combi"]) for x in tv2
+         if isinstance(x.get("a"), (int, float)) and isinstance(x.get("combi"), (int, float))
+         and x["t"][:4] not in ("2020", "2021")]
+
 BAROS = [("Croissance du PIB", "live", "trimestre en cours", frn(T3) + " %"),
-         ("Inflation", "pret", "hausse des prix", "à venir"),
-         ("Emploi & salaires", "pret", "marché du travail", "à venir"),
+         ("Inflation", "pret", "hausse des prix (IPC)", "à venir"),
          ("Production industrielle", "pret", "industrie manufacturière", "à venir"),
-         ("Taux d'intérêt", "pret", "OAT & financement", "à venir"),
-         ("Comptes publics", "roadmap", "déficit & dette", "à venir")]
+         ("Émissions de CO₂", "roadmap", "empreinte carbone", "à venir")]
 
 
 # ---------------- commentaire économique automatisé ----------------
@@ -255,16 +265,30 @@ html,body,.stApp{{background:var(--bg)!important}}
 .rl .why .w p{{margin:0;font-size:13.5px;line-height:1.55;color:var(--soft)}}
 /* suite (badge en flux, sans chevauchement) */
 .rl .suite{{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}}
-.rl .bc{{background:var(--surf);border:1px solid var(--line);border-radius:15px;padding:20px 22px;display:flex;flex-direction:column;gap:2px}}
-.rl .bc .st{{align-self:flex-start;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:20px;padding:2px 9px;margin-bottom:12px}}
+.rl .bc{{background:var(--surf);border:1px solid var(--line);border-radius:15px;padding:20px 22px;display:flex;flex-direction:column}}
+.rl .bc .st{{align-self:flex-start;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:20px;padding:2px 9px;margin-bottom:14px}}
 .rl .bc.live .st{{color:#fff;background:var(--teal);border-color:transparent}}
-.rl .bc h3{{font-family:"Libre Franklin",sans-serif;font-size:17px;font-weight:700;color:var(--ink)}}
-.rl .bc .m{{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--faint);margin-bottom:12px}}
-.rl .bc .val{{font-family:"Fraunces",serif;font-size:30px;font-weight:600;color:var(--navy)}}
+.rl .bc h3{{font-family:"Libre Franklin",sans-serif;font-size:17px;font-weight:700;color:var(--ink);min-height:2.5em;display:flex;align-items:flex-start}}
+.rl .bc .m{{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--faint);margin:4px 0 16px}}
+.rl .bc .val{{font-family:"Fraunces",serif;font-size:30px;font-weight:600;color:var(--navy);margin-top:auto}}
 :root:not([data-theme="light"]) .rl .bc .val{{color:var(--blue)}}
 .rl .bc .val.mut{{color:var(--faint);font-size:18px}}
+/* décomposition (mix des modèles) */
+.rl .mix{{display:grid;gap:11px;margin-top:2px}}
+.rl .mix .r{{display:grid;grid-template-columns:minmax(96px,130px) 1fr 48px;gap:14px;align-items:center;font-size:13.5px;color:var(--ink)}}
+.rl .mix .bar{{height:14px;border-radius:5px;background:var(--surf2);overflow:hidden}}.rl .mix .bar span{{display:block;height:100%;border-radius:5px;background:color-mix(in srgb,var(--blue) 45%,var(--surf))}}
+.rl .mix .v{{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--soft);text-align:right}}
+.rl .mix .r.avg{{font-weight:700;padding-top:11px;border-top:1px solid var(--line)}}.rl .mix .r.avg .bar span{{background:var(--navy)}}
+:root:not([data-theme="light"]) .rl .mix .r.avg .bar span{{background:var(--blue)}}
+.rl .mix .r.avg .v{{color:var(--ink)}}
+/* acquis (timeline) */
+.rl .acq{{display:flex;gap:10px;flex-wrap:wrap;margin-top:2px}}
+.rl .acq .s{{flex:1 1 150px;background:var(--surf2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}}
+.rl .acq .s .mo{{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--brass)}}
+.rl .acq .s .fill{{height:8px;border-radius:5px;background:var(--line);overflow:hidden;margin:9px 0}}.rl .acq .s .fill span{{display:block;height:100%;border-radius:5px;background:var(--blue)}}
+.rl .acq .s p{{margin:0;font-size:12.5px;color:var(--soft);line-height:1.45}}
 .rl svg{{display:block}}
-.rl svg.fan{{width:100%;height:auto;aspect-ratio:520/258}} .rl svg.gauge{{width:100%;height:auto;aspect-ratio:480/168}} .rl svg.ic{{width:24px;height:24px}}
+.rl svg.fan{{width:100%;height:auto;aspect-ratio:520/258}} .rl svg.gauge{{width:100%;height:auto;aspect-ratio:480/168}} .rl svg.track{{width:100%;height:auto;aspect-ratio:900/300}} .rl svg.ic{{width:24px;height:24px}}
 .stDownloadButton button{{border:1px solid var(--line)!important;background:var(--surf)!important;color:var(--ink)!important;border-radius:10px!important;font-weight:600!important;font-family:"Libre Franklin",sans-serif!important;padding:8px 18px!important}}
 </style>""", unsafe_allow_html=True)
 
@@ -397,6 +421,61 @@ def bars_html(items, win_name=None, dec=2):
     return '<div class="rb">' + "".join(out) + '</div>'
 
 
+def svg_track(pts):
+    """Backtest : nowcast (combi) vs réalisé (INSEE), par trimestre, hors Covid."""
+    if len(pts) < 4:
+        return ""
+    W, H, mL, mR, mT, mB = 900, 300, 46, 18, 30, 42
+    n = len(pts)
+    iw, ih = W - mL - mR, H - mT - mB
+    vals = [a for _, a, _ in pts] + [c for _, _, c in pts]
+    yMin, yMax = min(vals) - 0.06, max(vals) + 0.10
+    X = lambda i: mL + iw * i / (n - 1)
+    Y = lambda v: mT + ih * (1 - (v - yMin) / (yMax - yMin))
+    s = [f'<svg class="track" viewBox="0 0 {W} {H}">']
+    for g in [y / 100 for y in range(-100, 101, 25)]:
+        if yMin < g < yMax:
+            yy = Y(g)
+            s.append(f'<line x1="{mL}" y1="{yy:.1f}" x2="{W-mR}" y2="{yy:.1f}" stroke="var(--line)" stroke-width="{1.6 if abs(g)<1e-9 else 1}"/>')
+            s.append(f'<text x="{mL-8}" y="{yy+4:.1f}" text-anchor="end" font-family="IBM Plex Mono" font-size="11" fill="{C["faint"]}">{comma(g,2)}</text>')
+    # segments contigus (coupe au trou Covid)
+    segs, cur = [], [0]
+    for i in range(1, n):
+        if pts[i][0][:4] == "2022" and pts[i - 1][0][:4] == "2019":
+            xg = (X(i - 1) + X(i)) / 2
+            s.append(f'<rect x="{X(i-1):.1f}" y="{mT}" width="{X(i)-X(i-1):.1f}" height="{ih}" fill="color-mix(in srgb,var(--faint) 8%,transparent)"/>')
+            s.append(f'<text x="{xg:.1f}" y="{mT-10}" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="{C["faint"]}">2020–21 · Covid (exclu)</text>')
+            segs.append(cur)
+            cur = [i]
+        else:
+            cur.append(i)
+    segs.append(cur)
+    for idx, col, w in ((1, C["soft"], 2.4), (2, C["blue"], 2.6)):
+        for seg in segs:
+            if len(seg) > 1:
+                s.append(f'<polyline points="{" ".join(f"{X(i):.1f},{Y(pts[i][idx]):.1f}" for i in seg)}" fill="none" stroke="{col}" stroke-width="{w}"/>')
+    # marqueurs nowcast (points discrets)
+    for i in range(n):
+        s.append(f'<circle cx="{X(i):.1f}" cy="{Y(pts[i][2]):.1f}" r="2.4" fill="{C["blue"]}"/>')
+    # années
+    seen = set()
+    for i, (t, _, _) in enumerate(pts):
+        if t.endswith("Q1") and t[:4] not in seen:
+            seen.add(t[:4])
+            s.append(f'<text x="{X(i):.1f}" y="{H-14}" text-anchor="middle" font-family="IBM Plex Mono" font-size="10.5" fill="{C["faint"]}">{t[:4]}</text>')
+    s.append("</svg>")
+    return "".join(s)
+
+
+def mix_html():
+    mx = max([v for _, v in MODELF] + [T3]) or 1
+    rows = "".join(
+        f'<div class="r"><span>{name}</span><span class="bar"><span style="width:{v/mx*100:.0f}%"></span></span><span class="v">{frn(v)}</span></div>'
+        for name, v in MODELF)
+    rows += f'<div class="r avg"><span>Moyenne des trois</span><span class="bar"><span style="width:{AVG3/mx*100:.0f}%"></span></span><span class="v">{frn(AVG3)}</span></div>'
+    return f'<div class="mix">{rows}</div>'
+
+
 # icônes
 def _svg(paths, stroke):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="{stroke}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="ic">{paths}</svg>'
@@ -425,8 +504,8 @@ st.markdown(f"""<div class="rl"><div class="top">
 # ==================================================================== pages
 def page_prevision():
     st.markdown(f"""<div class="rl">
- <div class="sh"><div class="n">La prévision</div><h2>Quelle croissance pour l'économie française ?</h2>
-   <div class="d">La prévision du PIB de la France pour le trimestre en cours et le suivant — sa variation par rapport au trimestre précédent, mise à jour à chaque nouvelle publication d'indicateur.</div></div>
+ <div class="sh"><div class="n">En temps réel</div><h2>Où en est la croissance française, en direct ?</h2>
+   <div class="d">Notre estimation de l'activité (le PIB) pour le trimestre en cours et le suivant — sa variation par rapport au trimestre précédent, réactualisée à chaque nouvelle publication d'indicateur, sans attendre les chiffres officiels.</div></div>
  <div class="g2">
   <div class="verdict">
    <div class="vh"><div class="vtitle">Croissance du PIB<span>France · en volume</span></div><span class="seal">RexNow · Rexecode</span></div>
@@ -481,18 +560,43 @@ def page_methode():
      <div class="atout"><b>Son atout :</b> rester lisible et robuste, sans sur-réagir.</div></div>
  </div>
 
- <div class="g2" style="margin-top:22px">
+ <div class="sh" style="margin-top:42px"><div class="n">La combinaison, concrètement</div><h2>Comment se forme le chiffre publié</h2></div>
+ <div class="g2">
+   <div class="card"><h3>Le chiffre d'aujourd'hui, décomposé</h3><div class="ph">Ce que voit chaque modèle en ce moment, et leur moyenne — le chiffre que nous publions</div>
+     {mix_html()}
+     <div class="note">Les trois modèles ne voient pas exactement la même chose : ici, MIDAS est le plus optimiste, ElasticNet le plus prudent. Le chiffre que nous publions est simplement leur <b>moyenne</b> ({frn(AVG3)} %) — ni le plus haut, ni le plus bas. C'est ce qui le rend plus robuste.</div></div>
    <div class="card"><h3>Pourquoi combiner plutôt que choisir ?</h3><div class="ph">Erreur de chaque modèle en test réel (2015-2026) — plus la barre est courte, plus c'est précis</div>
      {bars_html(MODELS_RMSE, win_name="Combinaison", dec=3)}
-     <div class="note">Les trois modèles sont très proches, et aucun n'est le meilleur à chaque période : celui qui gagne aujourd'hui peut décevoir demain. Plutôt que de parier sur l'un d'eux, nous publions leur moyenne — la <b>Combinaison</b> : toujours dans le peloton de tête, et surtout la plus <b>régulière dans le temps</b>. C'est le choix le plus sûr.</div></div>
+     <div class="note">Les trois modèles sont très proches, et aucun n'est le meilleur à chaque période : celui qui gagne aujourd'hui peut décevoir demain. Plutôt que de parier sur l'un d'eux, nous publions leur moyenne — toujours dans le peloton de tête, et surtout la plus <b>régulière dans le temps</b>.</div></div>
+ </div>
+
+ <div class="sh" style="margin-top:42px"><div class="n">Le secret d'un bon nowcast</div><h2>Le trimestre se « remplit » au fil des semaines</h2>
+   <div class="d">Un trimestre dure trois mois. Au début, tout est prévision. Puis, chaque semaine, de vraies données arrivent (production, consommation, commerce…) : une part de la croissance devient <b>acquise</b> (connue, plus à deviner). C'est exactement ainsi que l'INSEE bâtit ses comptes — et pourquoi notre estimation se resserre à mesure que le trimestre avance.</div></div>
+ <div class="acq">
+   <div class="s"><div class="mo">Début du trimestre</div><div class="fill"><span style="width:12%"></span></div><p>Presque tout reste à prévoir : seules les enquêtes de confiance sont disponibles. La marge d'incertitude est à son maximum.</p></div>
+   <div class="s"><div class="mo">Après 1 mois</div><div class="fill"><span style="width:42%"></span></div><p>Les premières données « dures » (production, ventes) tombent. Une partie du trimestre est acquise, l'estimation se précise.</p></div>
+   <div class="s"><div class="mo">Après 2 mois</div><div class="fill"><span style="width:78%"></span></div><p>L'essentiel de l'information est là. Il ne reste qu'un mois à estimer : la marge d'incertitude est devenue faible.</p></div>
+ </div>
+ <div class="note" style="margin:12px 2px 0">Schéma de principe : les proportions illustrent l'idée, la part réellement acquise dépend des publications de chaque trimestre.</div>
+
+ <div class="g2" style="margin-top:42px">
    <div class="card"><h3>Ce que le modèle regarde</h3><div class="ph">Les ingrédients, mis à jour en direct</div>
      <div class="ing">
-       <div class="i"><b>≈ 189</b><span>séries suivies (INSEE, Banque de France, BCE, Eurostat, Douanes…)</span></div>
+       <div class="i"><b>≈ 189</b><span>séries suivies, du climat des affaires au trafic de fret</span></div>
        <div class="i"><b>2</b><span>horizons distincts : le trimestre en cours et le suivant</span></div>
        <div class="i"><b>1×/sem.</b><span>mise à jour automatique dès qu'un indicateur paraît</span></div>
        <div class="i"><b>25 ans</b><span>de recul pour caler et vérifier les modèles</span></div>
      </div>
-     <div class="note">Nous reproduisons la façon dont l'INSEE bâtit les comptes : dès qu'un mois de données « dures » (production, consommation…) est connu, une partie de la croissance du trimestre est déjà acquise.</div></div>
+     <div class="note">Chaque semaine, dès qu'une donnée nouvelle est publiée, elle est intégrée et la prévision est recalculée — sans intervention manuelle.</div></div>
+   <div class="card"><h3>D'où viennent les données</h3><div class="ph">Des sources publiques et officielles, uniquement</div>
+     <div class="ing">
+       <div class="i"><b>INSEE</b><span>enquêtes, production, consommation, comptes trimestriels</span></div>
+       <div class="i"><b>Banque de France</b><span>enquête de conjoncture, crédit aux entreprises</span></div>
+       <div class="i"><b>BCE · Eurostat</b><span>zone euro, commerce, prix</span></div>
+       <div class="i"><b>Douanes</b><span>exportations et importations</span></div>
+       <div class="i"><b>Marchés</b><span>taux d'intérêt, pétrole, actions</span></div>
+     </div>
+     <div class="note">Aucune donnée confidentielle ni payante : la méthode est entièrement reproductible.</div></div>
  </div>
 </div>""", unsafe_allow_html=True)
 
@@ -500,20 +604,29 @@ def page_methode():
 def page_fiabilite():
     st.markdown(f"""<div class="rl">
  <div class="sh"><div class="n">Notre fiabilité</div><h2>Peut-on se fier à nos prévisions ?</h2>
-   <div class="d">Une bonne prévision, c'est deux qualités à la fois : viser <b>juste</b> (être proche du résultat final) et viser <b>sans biais</b> (ne pas se tromper toujours du même côté). Voici nos résultats sur la France — les nôtres, chiffres à l'appui.</div></div>
+   <div class="d">Une prévision ne vaut que si elle tient dans le temps. Une bonne prévision, c'est deux qualités à la fois : viser <b>juste</b> (tomber près du résultat final) et viser <b>sans biais</b> (ne pas se tromper toujours du même côté, trop haut ou trop bas). Voici nos résultats sur la France — les nôtres, chiffres et graphiques à l'appui.</div></div>
+
+ <div class="sh" style="margin-top:30px"><div class="n">La preuve en un graphique</div><h2>Le nowcast face à la réalité</h2>
+   <div class="d">Pour chaque trimestre passé, on compare ce que notre modèle estimait <b>en temps réel</b> (en bleu) à la croissance finalement mesurée par l'INSEE (en gris). Plus les deux courbes se superposent, plus le modèle est fiable.</div></div>
+ <div class="card" style="margin-bottom:26px"><h3>Estimation du nowcast vs croissance réalisée</h3><div class="ph">Croissance trimestrielle du PIB, 2015-2026 · hors trimestres de crise (Covid 2020-2021, hors échelle)</div>
+   {svg_track(TRACK)}
+   <div class="legend"><span class="it"><i style="background:{C['soft']}"></i>Réalisé (INSEE)</span><span class="it"><i style="background:{C['blue']}"></i>Nowcast (notre estimation en temps réel)</span></div>
+   <div class="note">Le nowcast suit de près les hauts et les bas de l'activité, trimestre après trimestre. Il lisse un peu les à-coups extrêmes — c'est normal, un modèle prudent ne « saute » pas sur un chiffre isolé — mais il ne se trompe presque jamais de sens. Sur toute la période, l'écart type de l'erreur (le « RMSE ») est de <b>{comma(RMSE0)} point</b> seulement.</div></div>
+
  <div class="g2">
   <div class="card"><h3>1 · Viser juste — la précision</h3><div class="ph">Écart moyen entre nos prévisions et la première estimation de l'INSEE, selon l'échéance (en points de croissance)</div>
     {bars_html(PREC, win_name="À quelques semaines")}
-    <div class="note">Plus l'échéance est proche, plus c'est précis : à quelques semaines, l'écart moyen n'est que de <b>{comma(MAE_CUR)} point</b>. Un an à l'avance, il reste de <b>{comma(MAE_NEXT)} point</b> — au niveau des tout meilleurs. En temps réel, l'erreur du nowcast est de {comma(RMSE0)} (trimestre en cours) et {comma(RMSE1)} (suivant).</div></div>
+    <div class="note">Plus l'échéance est proche, plus c'est précis : à quelques semaines, l'écart moyen n'est que de <b>{comma(MAE_CUR)} point</b> (autrement dit, on se trompe en moyenne d'un quart de point). Un an à l'avance, il reste de <b>{comma(MAE_NEXT)} point</b> — au niveau des tout meilleurs prévisionnistes.</div></div>
   <div class="card"><h3>2 · Viser sans biais — la neutralité</h3><div class="ph">Sur 24 ans (2002-2025), penche-t-on en moyenne trop à la hausse ou trop à la baisse ?</div>
     {svg_gauge()}
-    <div class="note">Notre biais moyen est de <b>{frn(BIAS)} point</b> : pratiquement zéro. Nous ne sommes ni systématiquement optimistes, ni pessimistes — une qualité rare, car beaucoup de prévisionnistes penchent toujours du même côté.</div></div>
+    <div class="note">Notre biais moyen (notre erreur moyenne, en tenant compte du signe) est de <b>{frn(BIAS)} point</b> : pratiquement zéro. Nous ne sommes ni systématiquement optimistes, ni pessimistes — une qualité rare, car beaucoup de prévisionnistes penchent toujours du même côté.</div></div>
  </div>
+
  <div class="sh" style="margin-top:40px"><div class="n">Ce que ça change</div><h2>Pourquoi c'est solide</h2></div>
  <div class="why">
-   <div class="w"><div class="ic">{SHIELD}</div><h4>Fiable</h4><p>24 années de recul, un écart moyen faible et stable — pas un coup de chance ponctuel, mais une régularité.</p></div>
-   <div class="w"><div class="ic">{BALANCE}</div><h4>Sans biais</h4><p>Un biais quasi nul : sur la durée, nos prévisions ne penchent ni vers l'excès d'optimisme, ni vers la prudence systématique.</p></div>
-   <div class="w"><div class="ic">{CLOCK}</div><h4>Testé en réel</h4><p>À chaque date passée, le modèle n'a reçu que l'information réellement disponible ce jour-là — jamais de données venues du futur.</p></div>
+   <div class="w"><div class="ic">{SHIELD}</div><h4>Fiable</h4><p>24 années de recul et un écart moyen faible et stable — pas un coup de chance ponctuel, mais une régularité qui se vérifie année après année.</p></div>
+   <div class="w"><div class="ic">{BALANCE}</div><h4>Sans biais</h4><p>Un biais quasi nul : sur la durée, nos prévisions ne penchent ni vers l'excès d'optimisme, ni vers la prudence systématique. On corrige à la hausse aussi souvent qu'à la baisse.</p></div>
+   <div class="w"><div class="ic">{CLOCK}</div><h4>Testé en conditions réelles</h4><p>À chaque date passée, le modèle n'a reçu que l'information réellement disponible ce jour-là — jamais de données venues du futur. Le test reproduit fidèlement la vraie vie.</p></div>
  </div>
 </div>""", unsafe_allow_html=True)
 
