@@ -104,11 +104,11 @@ def _q3(k, d):
     return v if isinstance(v, (int, float)) else d
 
 
-# T3 : quatre points mensuels (valeur, ±1 écart-type)
+# T3 : quatre points mensuels (valeur, ±1 écart-type) ; le point final = le chiffre publié
 T3PTS = [("juin", _q3("avant T", 0.304), rstage.get("avant T", 0.231)),
          ("juil.", _q3("fin M1", 0.299), rstage.get("fin M1", 0.228)),
          ("août", _q3("fin M2", 0.28), rstage.get("fin M2", 0.238)),
-         ("sept.", _q3("aujourd'hui", T3), rstage.get("fin M3", 0.215))]
+         ("sept.", T3, rstage.get("fin M3", 0.215))]
 T4PT = (T4, RMSE1)  # T4 : estimation actuelle, ±1 écart-type
 
 # décomposition du chiffre publié : les 3 modèles → leur moyenne

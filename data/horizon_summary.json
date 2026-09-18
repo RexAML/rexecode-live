@@ -1,26 +1,26 @@
 {
  "rmse_h0": {
-  "COMBI": 0.215,
-  "ElasticNet": 0.227,
-  "MIDAS": 0.247,
-  "RandomForest": 0.213
+  "COMBI": 0.192,
+  "ElasticNet": 0.2,
+  "MIDAS": 0.192,
+  "RandomForest": 0.198
  },
  "rmse_h1": {
-  "COMBI": 0.226,
-  "ElasticNet": 0.247,
-  "MIDAS": 0.252,
-  "RandomForest": 0.226
+  "COMBI": 0.24,
+  "ElasticNet": 0.253,
+  "MIDAS": 0.246,
+  "RandomForest": 0.249
  },
  "forecast_T3_h0": {
-  "RandomForest": 0.163,
-  "MIDAS": 0.311,
-  "ElasticNet": 0.139,
-  "COMBI": 0.204
+  "RandomForest": 0.273,
+  "ElasticNet": 0.29,
+  "MIDAS": 0.302,
+  "COMBI": 0.288
  },
  "forecast_T4_h1": {
-  "RandomForest": 0.225,
-  "MIDAS": 0.3,
-  "ElasticNet": 0.257,
-  "COMBI": 0.261
+  "RandomForest": 0.213,
+  "ElasticNet": 0.239,
+  "MIDAS": 0.305,
+  "COMBI": 0.252
  }
 }
