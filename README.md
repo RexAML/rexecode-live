@@ -46,9 +46,13 @@ Le dossier `rexlive/` est **autonome** : les données du modèle sont embarquée
 ## Mettre à jour les chiffres
 Après un recalcul du modèle, recopie dans `rexlive/data/` :
 ```
-horizon_summary.json   cats_importance.json   nowcast_evolution.json   chart_v2.json
+horizon_summary.json   cats_importance.json   nowcast_evolution.json   chart_v2.json   contributions.json
 ```
-(`chart_v2.json` = backtest nowcast vs réalisé, affiché dans « Notre fiabilité ».)
+(`chart_v2.json` = backtest nowcast vs réalisé, affiché dans « Notre fiabilité » ;
+`contributions.json` = contributions signées par famille, façon OFCE, affichées dans « Prévision ».)
+
+Pour régénérer `contributions.json` : `python pib_nowcast\contributions.py` (utilise `shap`,
+installé **en local uniquement** — l'app en ligne ne lit que le JSON, `requirements.txt` reste `streamlit`).
 (depuis `..\results\pib\`) puis re-commit → Streamlit redéploie tout seul.
 
 ## Ce qui reste (dernières briques, hors Streamlit)

@@ -93,6 +93,9 @@ MODELS_RMSE = [("Forêt aléatoire", _rm("RandomForest", 0.213)), ("MIDAS", _rm(
 BIAS, MAE_CUR, MAE_NEXT = 0.06, 0.24, 0.57
 PREC = [("À quelques semaines", MAE_CUR, "trimestre en cours"), ("Un an à l'avance", MAE_NEXT, "année suivante")]
 
+# contributions signées par famille (contributions.json)
+CONTRIB = loadjson("contributions.json", {})
+
 # trajectoire réelle du nowcast (nowcast_evolution.json)
 evo = loadjson("nowcast_evolution.json", {})
 rstage = evo.get("rmse_stage", {})
@@ -218,6 +221,14 @@ html,body,.stApp{{background:var(--bg)!important}}
 .rl .drv .rt .v{{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--soft);font-weight:500}}
 .rl .drv .ex{{font-size:11.5px;color:var(--faint);line-height:1.3}}
 .rl .drv .bar{{height:9px;border-radius:5px;background:var(--surf2);overflow:hidden;margin-top:2px}}.rl .drv .bar span{{display:block;height:100%;border-radius:5px}}
+/* contributions signées (barres divergentes) */
+.rl .cbars{{display:grid;gap:12px;margin-top:2px}}
+.rl .cbars .cr{{display:grid;grid-template-columns:minmax(118px,180px) 1fr 46px;gap:12px;align-items:center;font-size:13.5px;color:var(--ink)}}
+.rl .cbars .ct{{position:relative;height:17px;background:var(--surf2);border-radius:5px}}
+.rl .cbars .ct::before{{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--faint);opacity:.55}}
+.rl .cbars .seg{{position:absolute;top:0;height:100%;border-radius:4px}}
+.rl .cbars .seg.pos{{background:var(--teal)}} .rl .cbars .seg.neg{{background:var(--orange)}}
+.rl .cbars .cv{{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--soft);text-align:right}}
 .rl .note{{font-size:13px;color:var(--faint);margin-top:14px;line-height:1.55}}
 .rl .note b{{color:var(--soft)}}
 .rl .legend{{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--soft);margin-top:12px;align-items:center}}
@@ -288,7 +299,7 @@ html,body,.stApp{{background:var(--bg)!important}}
 .rl .acq .s .fill{{height:8px;border-radius:5px;background:var(--line);overflow:hidden;margin:9px 0}}.rl .acq .s .fill span{{display:block;height:100%;border-radius:5px;background:var(--blue)}}
 .rl .acq .s p{{margin:0;font-size:12.5px;color:var(--soft);line-height:1.45}}
 .rl svg{{display:block}}
-.rl svg.fan{{width:100%;height:auto;aspect-ratio:520/258}} .rl svg.gauge{{width:100%;height:auto;aspect-ratio:480/168}} .rl svg.track{{width:100%;height:auto;aspect-ratio:900/300}} .rl svg.ic{{width:24px;height:24px}}
+.rl svg.fan{{width:100%;height:auto;aspect-ratio:520/258}} .rl svg.gauge{{width:100%;height:auto;aspect-ratio:480/168}} .rl svg.track{{width:100%;height:auto;aspect-ratio:900/300}} .rl svg.casc{{width:100%;height:auto;aspect-ratio:900/340}} .rl svg.ic{{width:24px;height:24px}}
 .stDownloadButton button{{border:1px solid var(--line)!important;background:var(--surf)!important;color:var(--ink)!important;border-radius:10px!important;font-weight:600!important;font-family:"Libre Franklin",sans-serif!important;padding:8px 18px!important}}
 </style>""", unsafe_allow_html=True)
 
@@ -392,6 +403,80 @@ def svg_gauge():
     s.append(f'<polygon points="{xb-7:.1f},{y-22:.1f} {xb+7:.1f},{y-22:.1f} {xb:.1f},{y-11:.1f}" fill="{tl}"/>')
     s.append(f'<circle cx="{xb:.1f}" cy="{y:.1f}" r="6" fill="{tl}" stroke="var(--surf)" stroke-width="2"/>')
     s.append(f'<text x="{xb:.1f}" y="{y-30:.1f}" text-anchor="middle" font-family="Fraunces" font-size="17" font-weight="600" fill="{tl}">{frn(BIAS)}</text>')
+    s.append("</svg>")
+    return "".join(s)
+
+
+def _wrap2(name):
+    """Coupe un libellé en 2 lignes équilibrées (pour l'axe de la cascade)."""
+    w = name.split()
+    if len(w) <= 1:
+        return [name, ""]
+    best, bi = 1e9, 1
+    for i in range(1, len(w)):
+        a, b = " ".join(w[:i]), " ".join(w[i:])
+        d = abs(len(a) - len(b))
+        if d < best:
+            best, bi = d, i
+    return [" ".join(w[:bi]), " ".join(w[bi:])]
+
+
+def svg_cascade():
+    """Cascade (bridge) : du trimestre moyen au nowcast, un pas par grand bloc."""
+    blocks = CONTRIB.get("blocks", [])
+    if not blocks:
+        return ""
+    base = CONTRIB.get("base", 0.31)
+    total = CONTRIB.get("total", CONTRIB.get("T3", base))
+    # colonnes : (lignes label, type, valeur/niveau, before, after, close)
+    items = [(["Trimestre", "moyen"], "start", base, None, None, base)]
+    r = base
+    for name, v in blocks:
+        before, after = r, r + v
+        r = after
+        items.append((_wrap2(name), "delta", v, before, after, after))
+    items.append((["Nowcast", "3ᵉ trim."], "end", total, None, None, total))
+
+    levels = [base, total] + [x for _, _, _, bf, af, _ in items if bf is not None for x in (bf, af)]
+    lo, hi = min(levels), max(levels)
+    yMin, yMax = lo - 0.035, hi + 0.02
+    W, H, mL, mR, mT, mB = 900, 340, 54, 18, 30, 58
+    n = len(items)
+    band = (W - mL - mR) / n
+    cx = lambda i: mL + band * (i + 0.5)
+    bw = min(band * 0.52, 66)
+    Y = lambda v: mT + (H - mB - mT) * (1 - (v - yMin) / (yMax - yMin))
+    gray, bl, tl, org = C["faint"], C["blue"], C["teal"], C["orange"]
+    s = [f'<svg class="casc" viewBox="0 0 {W} {H}">']
+    # grille + axe y (pas ~0,02)
+    g = (int(yMin / 0.02) + 1) * 0.02
+    while g < yMax:
+        yy = Y(g)
+        s.append(f'<line x1="{mL}" y1="{yy:.1f}" x2="{W-mR}" y2="{yy:.1f}" stroke="var(--line)"/>')
+        s.append(f'<text x="{mL-9}" y="{yy+4:.1f}" text-anchor="end" font-family="IBM Plex Mono" font-size="10.5" fill="{gray}">{frn(g,2)}</text>')
+        g += 0.02
+    # connecteurs (pointillés) entre colonnes, au niveau de clôture
+    for i in range(n - 1):
+        yc = Y(items[i][5])
+        s.append(f'<line x1="{cx(i)+bw/2:.1f}" y1="{yc:.1f}" x2="{cx(i+1)-bw/2:.1f}" y2="{yc:.1f}" stroke="{gray}" stroke-dasharray="3 3" opacity="0.7"/>')
+    # barres
+    for i, (lab, kind, val, bf, af, close) in enumerate(items):
+        x = cx(i) - bw / 2
+        if kind in ("start", "end"):
+            y0, y1 = Y(val), Y(yMin)
+            col = bl if kind == "end" else gray
+            s.append(f'<rect x="{x:.1f}" y="{y0:.1f}" width="{bw:.1f}" height="{y1-y0:.1f}" rx="3" fill="{col}"/>')
+            s.append(f'<text x="{cx(i):.1f}" y="{y0-8:.1f}" text-anchor="middle" font-family="IBM Plex Mono" font-size="12" font-weight="600" fill="{col}">{frn(val)}</text>')
+        else:
+            top, bot = min(Y(bf), Y(af)), max(Y(bf), Y(af))
+            col = tl if val > 0.0005 else (org if val < -0.0005 else gray)
+            h = max(bot - top, 3)
+            s.append(f'<rect x="{x:.1f}" y="{top:.1f}" width="{bw:.1f}" height="{h:.1f}" rx="3" fill="{col}"/>')
+            lv = frn(val) if abs(val) >= 0.005 else "≈ 0"
+            s.append(f'<text x="{cx(i):.1f}" y="{top-8:.1f}" text-anchor="middle" font-family="IBM Plex Mono" font-size="11.5" font-weight="600" fill="{col}">{lv}</text>')
+        # libellé d'axe (2 lignes)
+        s.append(f'<text x="{cx(i):.1f}" y="{H-mB+18:.1f}" text-anchor="middle" font-family="IBM Plex Mono" font-size="10.5" fill="{C["soft"]}">{lab[0]}'
+                 f'<tspan x="{cx(i):.1f}" dy="12">{lab[1]}</tspan></text>')
     s.append("</svg>")
     return "".join(s)
 
@@ -503,6 +588,22 @@ st.markdown(f"""<div class="rl"><div class="top">
 
 # ==================================================================== pages
 def page_prevision():
+    cb = CONTRIB.get("base", 0.31)
+    cblocks = CONTRIB.get("blocks", [])
+    movers = [b for b in cblocks if abs(b[1]) >= 0.005]
+    if movers:
+        ctop = max(movers, key=lambda kv: abs(kv[1]))
+        csens = "pèse" if ctop[1] < 0 else "soutient"
+        cnote = (f"Point de départ : la croissance d'un trimestre « normal » (≈ {frn(cb)} %). Chaque bloc "
+                 f"ajuste ce niveau pour aboutir au nowcast ({frn(T3)} %). Ce trimestre, les écarts sont "
+                 f"modestes — l'activité est proche de sa moyenne ; c'est le bloc « {ctop[0].lower()} » "
+                 f"qui {csens} le plus ({frn(ctop[1])} pt).")
+    elif cblocks:
+        cnote = (f"Point de départ : la croissance d'un trimestre « normal » (≈ {frn(cb)} %). Ce trimestre, "
+                 f"tous les blocs sont proches de leur normale : le nowcast ({frn(T3)} %) reste au voisinage "
+                 f"de la moyenne, sans facteur qui domine.")
+    else:
+        cnote = "Décomposition indisponible."
     st.markdown(f"""<div class="rl">
  <div class="sh"><div class="n">En temps réel</div><h2>Où en est la croissance française, en direct ?</h2>
    <div class="d">Notre estimation de l'activité (le PIB) pour le trimestre en cours et le suivant — sa variation par rapport au trimestre précédent, réactualisée à chaque nouvelle publication d'indicateur, sans attendre les chiffres officiels.</div></div>
@@ -520,15 +621,19 @@ def page_prevision():
     <div class="sig">Lecture générée automatiquement à partir des prévisions du modèle.</div></div>
  </div>
 
- <div class="sh" style="margin-top:42px"><div class="n">Ce qui explique le chiffre</div><h2>Ce qui fait bouger la prévision</h2></div>
+ <div class="sh" style="margin-top:42px"><div class="n">Ce qui explique le chiffre</div><h2>Comment on passe d'un trimestre normal au nowcast</h2></div>
+ <div class="card" style="margin-bottom:22px"><h3>Les contributions, bloc par bloc</h3><div class="ph">On part de la croissance d'un trimestre normal ; chaque grand bloc ajoute (vert) ou retranche (orange) pour aboutir au nowcast — en points de PIB</div>
+   {svg_cascade()}
+   <div class="legend"><span class="it"><i style="background:{C['faint']}"></i>trimestre moyen</span><span class="it"><i style="background:{C['teal']}"></i>soutient</span><span class="it"><i style="background:{C['orange']}"></i>freine</span><span class="it"><i style="background:{C['blue']}"></i>nowcast</span></div>
+   <div class="note">{cnote}</div></div>
  <div class="g2">
-  <div class="card"><h3>Les familles d'indicateurs qui pèsent le plus</h3><div class="ph">Part de chaque famille dans la prévision du modèle</div>
-    {drivers_html()}
-    <div class="note">Ces poids reflètent l'importance <b>structurelle</b> de chaque famille. À chaque publication, ce sont surtout leurs <b>contributions</b> qui bougent : une bonne enquête relève la prévision, une production décevante l'abaisse.</div></div>
   <div class="card"><h3>La prévision de chaque trimestre, avec son incertitude</h3><div class="ph">Comment l'estimation évolue au fil des mois, et sa marge d'erreur</div>
     {svg_fan()}
     <div class="legend"><span class="it"><i style="background:{C['blue']}"></i>3ᵉ trimestre</span><span class="it"><i style="background:{C['orange']}"></i>4ᵉ trimestre</span><span class="it"><i class="dot" style="background:rgba({C['ic']},0.28)"></i>marge d'incertitude (±1 écart-type)</span></div>
-    <div class="note">Le <b>3ᵉ trimestre</b> se précise mois après mois : parti de +0,30 %, il a été ramené à {frn(T3)} % à mesure que les données réelles tombaient, et sa marge se resserre. Le <b>4ᵉ trimestre</b>, plus lointain, n'a pour l'instant qu'une estimation, avec une marge plus large.</div></div>
+    <div class="note">Le <b>3ᵉ trimestre</b> s'affine mois après mois autour de +0,3 % et se fixe à {frn(T3)} % ; sa marge d'incertitude se resserre. Le <b>4ᵉ trimestre</b>, plus lointain, n'a pour l'instant qu'une estimation, avec une marge plus large.</div></div>
+  <div class="card"><h3>Les familles sur lesquelles s'appuie le modèle</h3><div class="ph">Poids structurel de chaque famille, toutes périodes confondues</div>
+    {drivers_html()}
+    <div class="note"><b>Poids ≠ contribution</b> : le poids dit <b>sur quoi</b> le modèle s'appuie en général ; la contribution (cascade ci-dessus) dit ce qui bouge <b>ce trimestre précis</b>. Une famille peut peser lourd et contribuer peu si, ce trimestre, elle est conforme à sa normale.</div></div>
  </div>
 </div>""", unsafe_allow_html=True)
 

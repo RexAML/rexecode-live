@@ -1,0 +1,28 @@
+{
+ "T3": 0.288,
+ "base": 0.314,
+ "total": 0.288,
+ "shap": true,
+ "blocks": [
+  [
+   "Enquêtes de confiance",
+   -0.029
+  ],
+  [
+   "Production & consommation",
+   0.0
+  ],
+  [
+   "Commerce extérieur",
+   0.005
+  ],
+  [
+   "Finance & prix",
+   -0.002
+  ],
+  [
+   "Acquis du PIB",
+   0.0
+  ]
+ ]
+}
