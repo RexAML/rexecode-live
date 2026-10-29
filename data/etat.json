@@ -1,0 +1,27 @@
+{
+ "date": "2026-10-29",
+ "maj": "29 octobre 2026",
+ "T": "2026Q3",
+ "TN": "2026Q4",
+ "dernier_pib": "2026Q2",
+ "pib_dernier": 0.164,
+ "lib_T": "3ᵉ trimestre 2026",
+ "lib_TN": "4ᵉ trimestre 2026",
+ "court_T": "3ᵉ trim.",
+ "court_TN": "4ᵉ trim. 2026",
+ "ord_T": "troisième",
+ "ord_TN": "quatrième",
+ "ord_dernier": "deuxième",
+ "mois_T": [
+  "juillet",
+  "août",
+  "septembre"
+ ],
+ "mois_T_ab": [
+  "juil.",
+  "août",
+  "sept."
+ ],
+ "mois_avant": "juin",
+ "mois_avant_ab": "juin"
+}

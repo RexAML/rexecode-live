@@ -15,10 +15,11 @@
  },
  "paths": {
   "2026Q3": {
-   "avant T": 0.307,
-   "fin M1": 0.268,
-   "fin M2": 0.306,
-   "aujourd'hui": 0.288
+   "avant T": 0.318,
+   "fin M1": 0.277,
+   "fin M2": 0.263,
+   "fin M3": 0.221,
+   "aujourd'hui": 0.182
   }
  }
 }
