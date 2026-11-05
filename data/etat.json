@@ -1,27 +1,27 @@
 {
- "date": "2026-10-29",
- "maj": "29 octobre 2026",
- "T": "2026Q3",
- "TN": "2026Q4",
- "dernier_pib": "2026Q2",
- "pib_dernier": 0.164,
- "lib_T": "3ᵉ trimestre 2026",
- "lib_TN": "4ᵉ trimestre 2026",
- "court_T": "3ᵉ trim.",
- "court_TN": "4ᵉ trim. 2026",
- "ord_T": "troisième",
- "ord_TN": "quatrième",
- "ord_dernier": "deuxième",
+ "date": "2026-11-05",
+ "maj": "5 novembre 2026",
+ "T": "2026Q4",
+ "TN": "2027Q1",
+ "dernier_pib": "2026Q3",
+ "pib_dernier": -0.131,
+ "lib_T": "4ᵉ trimestre 2026",
+ "lib_TN": "1ᵉʳ trimestre 2027",
+ "court_T": "4ᵉ trim.",
+ "court_TN": "1ᵉʳ trim. 2027",
+ "ord_T": "quatrième",
+ "ord_TN": "premier",
+ "ord_dernier": "troisième",
  "mois_T": [
-  "juillet",
-  "août",
-  "septembre"
+  "octobre",
+  "novembre",
+  "décembre"
  ],
  "mois_T_ab": [
-  "juil.",
-  "août",
-  "sept."
+  "oct.",
+  "nov.",
+  "déc."
  ],
- "mois_avant": "juin",
- "mois_avant_ab": "juin"
+ "mois_avant": "septembre",
+ "mois_avant_ab": "sept."
 }

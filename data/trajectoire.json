@@ -1,165 +1,67 @@
 {
- "trimestre": "2026Q3",
+ "trimestre": "2026Q4",
  "etapes": [
   {
-   "label": "fin juin",
+   "label": "fin septembre",
    "sub": "avant le trimestre",
-   "date": "2026-06-30",
-   "pred": 0.318,
-   "trio": 0.321,
-   "mih": 0.314,
-   "base": 0.311,
+   "date": "2026-09-30",
+   "pred": 0.265,
+   "trio": 0.285,
+   "mih": 0.244,
+   "base": 0.307,
    "blocks": {
     "Enquêtes de confiance": 0.0,
-    "Production & consommation": 0.011,
-    "Commerce extérieur": -0.007,
+    "Production & consommation": -0.03,
+    "Commerce extérieur": 0.004,
     "Finance & prix": 0.0,
-    "Élan du PIB passé": 0.003
+    "Élan du PIB passé": -0.016
    },
    "news": []
   },
   {
-   "label": "fin juillet",
+   "label": "fin octobre",
    "sub": "1er mois",
-   "date": "2026-07-31",
-   "pred": 0.277,
-   "trio": 0.272,
-   "mih": 0.282,
-   "base": 0.311,
-   "blocks": {
-    "Enquêtes de confiance": -0.058,
-    "Production & consommation": 0.007,
-    "Commerce extérieur": -0.003,
-    "Finance & prix": 0.004,
-    "Élan du PIB passé": 0.016
-   },
-   "news": [
-    "PIB du 2e trimestre (1re estimation INSEE)",
-    "enquêtes de conjoncture INSEE de juillet",
-    "enquête Banque de France de juin",
-    "consommation de biens de juin",
-    "production industrielle (IPI) de mai",
-    "commerce extérieur (Douanes) de mai",
-    "production des services (IPS) de mai"
-   ],
-   "delta": -0.041,
-   "delta_blocks": {
-    "Enquêtes de confiance": -0.058,
-    "Production & consommation": -0.004,
-    "Commerce extérieur": 0.004,
-    "Finance & prix": 0.004,
-    "Élan du PIB passé": 0.013
-   },
-   "delta_modele": 0.0
-  },
-  {
-   "label": "fin août",
-   "sub": "2e mois",
-   "date": "2026-08-31",
-   "pred": 0.263,
-   "trio": 0.293,
-   "mih": 0.233,
-   "base": 0.311,
-   "blocks": {
-    "Enquêtes de confiance": -0.084,
-    "Production & consommation": 0.029,
-    "Commerce extérieur": -0.01,
-    "Finance & prix": -0.0,
-    "Élan du PIB passé": 0.017
-   },
-   "news": [
-    "enquêtes de conjoncture INSEE d'août",
-    "enquête Banque de France de juillet",
-    "consommation de biens de juillet",
-    "production industrielle (IPI) de juin",
-    "commerce extérieur (Douanes) de juin",
-    "production des services (IPS) de juin"
-   ],
-   "delta": -0.014,
-   "delta_blocks": {
-    "Enquêtes de confiance": -0.026,
-    "Production & consommation": 0.022,
-    "Commerce extérieur": -0.007,
-    "Finance & prix": -0.004,
-    "Élan du PIB passé": 0.001
-   },
-   "delta_modele": 0.0
-  },
-  {
-   "label": "fin septembre",
-   "sub": "fin du trimestre",
-   "date": "2026-09-30",
-   "pred": 0.221,
-   "trio": 0.272,
-   "mih": 0.17,
-   "base": 0.311,
+   "date": "2026-10-31",
+   "pred": 0.236,
+   "trio": 0.232,
+   "mih": 0.24,
+   "base": 0.307,
    "blocks": {
     "Enquêtes de confiance": -0.09,
-    "Production & consommation": 0.006,
-    "Commerce extérieur": -0.025,
-    "Finance & prix": -0.0,
-    "Élan du PIB passé": 0.02
+    "Production & consommation": -0.026,
+    "Commerce extérieur": 0.004,
+    "Finance & prix": -0.003,
+    "Élan du PIB passé": 0.044
    },
    "news": [
-    "enquêtes de conjoncture INSEE de septembre",
-    "enquête Banque de France d'août",
-    "consommation de biens d'août",
-    "production industrielle (IPI) de juillet",
-    "commerce extérieur (Douanes) de juillet",
-    "production des services (IPS) de juillet"
-   ],
-   "delta": -0.042,
-   "delta_blocks": {
-    "Enquêtes de confiance": -0.006,
-    "Production & consommation": -0.023,
-    "Commerce extérieur": -0.015,
-    "Finance & prix": 0.0,
-    "Élan du PIB passé": 0.003
-   },
-   "delta_modele": 0.0
-  },
-  {
-   "label": "aujourd'hui",
-   "sub": "29 octobre",
-   "date": "2026-10-29",
-   "pred": 0.182,
-   "trio": 0.245,
-   "mih": 0.118,
-   "base": 0.311,
-   "blocks": {
-    "Enquêtes de confiance": -0.092,
-    "Production & consommation": 0.012,
-    "Commerce extérieur": -0.065,
-    "Finance & prix": -0.0,
-    "Élan du PIB passé": 0.016
-   },
-   "news": [
+    "PIB du 3e trimestre (1re estimation INSEE)",
     "enquêtes de conjoncture INSEE d'octobre",
     "enquête Banque de France de septembre",
+    "consommation de biens de septembre",
     "production industrielle (IPI) d'août",
     "commerce extérieur (Douanes) d'août",
     "production des services (IPS) d'août"
    ],
-   "delta": -0.039,
+   "delta": -0.029,
    "delta_blocks": {
-    "Enquêtes de confiance": -0.002,
-    "Production & consommation": 0.006,
-    "Commerce extérieur": -0.04,
-    "Finance & prix": 0.0,
-    "Élan du PIB passé": -0.004
+    "Enquêtes de confiance": -0.09,
+    "Production & consommation": 0.004,
+    "Commerce extérieur": 0.0,
+    "Finance & prix": -0.003,
+    "Élan du PIB passé": 0.06
    },
    "delta_modele": 0.0
   }
  ],
  "total": {
-  "depart": 0.318,
-  "arrivee": 0.182,
+  "depart": 0.265,
+  "arrivee": 0.236,
   "blocs": {
-   "Enquêtes de confiance": -0.092,
-   "Production & consommation": 0.001,
-   "Commerce extérieur": -0.058,
-   "Finance & prix": -0.0,
-   "Élan du PIB passé": 0.013
+   "Enquêtes de confiance": -0.09,
+   "Production & consommation": 0.004,
+   "Commerce extérieur": 0.0,
+   "Finance & prix": -0.003,
+   "Élan du PIB passé": 0.06
   },
   "modele": 0.0
  }
