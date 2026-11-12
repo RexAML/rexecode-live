@@ -14,18 +14,18 @@
   "COMBI": 0.257
  },
  "forecast_T3_h0": {
-  "RandomForest": 0.191,
-  "ElasticNet": 0.257,
-  "MIDAS": 0.229,
-  "COMBI": 0.234,
-  "TRIO": 0.225,
-  "MIH": 0.243
+  "RandomForest": 0.147,
+  "ElasticNet": 0.215,
+  "MIDAS": 0.211,
+  "COMBI": 0.229,
+  "TRIO": 0.191,
+  "MIH": 0.268
  },
  "forecast_T4_h1": {
-  "RandomForest": 0.16,
-  "ElasticNet": 0.216,
+  "RandomForest": 0.145,
+  "ElasticNet": 0.177,
   "MIDAS": 0.299,
-  "COMBI": 0.225
+  "COMBI": 0.207
  },
  "rmse_periode": "2010-2026",
  "metriques_moments": {
@@ -141,50 +141,50 @@
  "mih_coefs": [
   {
    "var": "PIB du trimestre précédent",
-   "coef": -0.044,
+   "coef": -0.049,
+   "sd": 0.025,
+   "dur": false
+  },
+  {
+   "var": "Enquête : production (Banque de France), 1er mois",
+   "coef": 0.045,
+   "sd": 0.024,
+   "dur": false
+  },
+  {
+   "var": "Enquête : activité des services (BdF), 1er mois",
+   "coef": 0.036,
+   "sd": 0.025,
+   "dur": false
+  },
+  {
+   "var": "Acquis d'exportations",
+   "coef": 0.033,
+   "sd": 0.023,
+   "dur": true
+  },
+  {
+   "var": "Enquête : confiance des ménages, 1er mois",
+   "coef": 0.034,
    "sd": 0.026,
    "dur": false
   },
   {
    "var": "Enquête : climat des services, 1er mois",
-   "coef": 0.053,
-   "sd": 0.033,
+   "coef": 0.041,
+   "sd": 0.032,
    "dur": false
   },
   {
    "var": "Enquête : production passée (industrie), 1er mois",
-   "coef": 0.048,
-   "sd": 0.03,
-   "dur": false
-  },
-  {
-   "var": "Enquête : confiance des ménages, 1er mois",
-   "coef": 0.042,
+   "coef": 0.035,
    "sd": 0.028,
    "dur": false
   },
   {
-   "var": "Acquis de consommation",
-   "coef": 0.021,
-   "sd": 0.025,
-   "dur": true
-  },
-  {
-   "var": "Acquis d'importations",
-   "coef": -0.02,
-   "sd": 0.026,
-   "dur": true
-  },
-  {
-   "var": "Enquête : climat des affaires, 1er mois",
-   "coef": 0.026,
-   "sd": 0.034,
-   "dur": false
-  },
-  {
-   "var": "Acquis d'exportations",
-   "coef": 0.005,
-   "sd": 0.025,
+   "var": "Acquis de production",
+   "coef": 0.012,
+   "sd": 0.023,
    "dur": true
   }
  ]
