@@ -51,17 +51,47 @@
     "Élan du PIB passé": 0.06
    },
    "delta_modele": 0.0
+  },
+  {
+   "label": "aujourd'hui",
+   "sub": "19 novembre",
+   "date": "2026-11-19",
+   "pred": 0.222,
+   "trio": 0.196,
+   "mih": 0.247,
+   "base": 0.307,
+   "blocks": {
+    "Enquêtes de confiance": -0.083,
+    "Production & consommation": -0.021,
+    "Commerce extérieur": -0.022,
+    "Finance & prix": -0.001,
+    "Élan du PIB passé": 0.042
+   },
+   "news": [
+    "enquête Banque de France d'octobre",
+    "production industrielle (IPI) de septembre",
+    "commerce extérieur (Douanes) de septembre"
+   ],
+   "delta": -0.012,
+   "delta_blocks": {
+    "Enquêtes de confiance": 0.007,
+    "Production & consommation": 0.008,
+    "Commerce extérieur": -0.027,
+    "Finance & prix": 0.002,
+    "Élan du PIB passé": -0.002
+   },
+   "delta_modele": 0.0
   }
  ],
  "total": {
   "depart": 0.263,
-  "arrivee": 0.234,
+  "arrivee": 0.222,
   "blocs": {
-   "Enquêtes de confiance": -0.09,
-   "Production & consommation": 0.002,
-   "Commerce extérieur": 0.002,
-   "Finance & prix": -0.003,
-   "Élan du PIB passé": 0.06
+   "Enquêtes de confiance": -0.083,
+   "Production & consommation": 0.01,
+   "Commerce extérieur": -0.025,
+   "Finance & prix": -0.001,
+   "Élan du PIB passé": 0.058
   },
   "modele": 0.0
  }
