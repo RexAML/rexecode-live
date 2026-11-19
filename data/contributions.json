@@ -1,7 +1,7 @@
 {
- "T3": 0.229,
+ "T3": 0.222,
  "base": 0.307,
- "total": 0.23,
+ "total": 0.222,
  "shap": true,
  "blocks": [
   [
@@ -14,11 +14,11 @@
   ],
   [
    "Commerce extérieur",
-   -0.013
+   -0.022
   ],
   [
    "Finance & prix",
-   -0.002
+   -0.001
   ],
   [
    "Élan du PIB passé",
@@ -28,23 +28,23 @@
  "models": {
   "Forêt aléatoire": {
    "base": 0.309,
-   "pred": 0.147,
+   "pred": 0.157,
    "blocks": [
     [
      "Enquêtes de confiance",
-     -0.117
+     -0.116
     ],
     [
      "Production & consommation",
-     -0.025
+     -0.022
     ],
     [
      "Commerce extérieur",
-     -0.017
+     -0.016
     ],
     [
      "Finance & prix",
-     -0.01
+     -0.005
     ],
     [
      "Élan du PIB passé",
@@ -54,11 +54,11 @@
   },
   "ElasticNet": {
    "base": 0.31,
-   "pred": 0.215,
+   "pred": 0.218,
    "blocks": [
     [
      "Enquêtes de confiance",
-     -0.065
+     -0.066
     ],
     [
      "Production & consommation",
@@ -66,7 +66,7 @@
     ],
     [
      "Commerce extérieur",
-     -0.011
+     -0.008
     ],
     [
      "Finance & prix",
@@ -80,7 +80,7 @@
   },
   "MIDAS": {
    "base": 0.31,
-   "pred": 0.211,
+   "pred": 0.213,
    "blocks": [
     [
      "Enquêtes de confiance",
@@ -92,7 +92,7 @@
     ],
     [
      "Commerce extérieur",
-     -0.033
+     -0.03
     ],
     [
      "Finance & prix",
@@ -106,7 +106,7 @@
   },
   "Acquis durs": {
    "base": 0.303,
-   "pred": 0.268,
+   "pred": 0.247,
    "blocks": [
     [
      "Enquêtes de confiance",
@@ -114,11 +114,11 @@
     ],
     [
      "Production & consommation",
-     -0.012
+     -0.011
     ],
     [
      "Commerce extérieur",
-     -0.006
+     -0.027
     ],
     [
      "Finance & prix",
@@ -126,14 +126,14 @@
     ],
     [
      "Élan du PIB passé",
-     0.082
+     0.081
     ]
    ]
   }
  },
  "poids_mih": 0.5,
- "trio": 0.191,
- "mih": 0.268,
+ "trio": 0.196,
+ "mih": 0.247,
  "acquis": {
   "valeurs": {
    "sv_IPI_C1": -0.03,
@@ -164,31 +164,31 @@
    "acq_IPS_RS": -1.11,
    "sv_CONSO": -1.05,
    "acq_CONSO": -0.53,
-   "sv_X_VOL": 0.02,
-   "acq_X_VOL": -0.89,
-   "sv_M_VOL": 0.02,
-   "acq_M_VOL": -0.78,
-   "sv_X_VOLCZ": 0.07,
-   "acq_X_VOLCZ": -0.35,
-   "sv_M_VOLCZ": 0.23,
-   "acq_M_VOLCZ": -0.55,
+   "sv_X_VOL": -0.78,
+   "acq_X_VOL": -1.7,
+   "sv_M_VOL": -0.04,
+   "acq_M_VOL": -0.43,
+   "sv_X_VOLCZ": -0.25,
+   "acq_X_VOLCZ": -0.73,
+   "sv_M_VOLCZ": 0.8,
+   "acq_M_VOLCZ": 0.57,
    "sv_PROD": 0.62,
    "sv_IND": 0.04,
    "sv_SERV": 0.74,
    "acq_PROD": 0.02,
    "acq_IND": -0.27,
    "acq_SERV": 0.1,
-   "sv_X_MIX": 0.05,
-   "acq_X_MIX": -0.62,
-   "sv_M_MIX": 0.13,
-   "acq_M_MIX": -0.66,
+   "sv_X_MIX": -0.51,
+   "acq_X_MIX": -1.21,
+   "sv_M_MIX": 0.38,
+   "acq_M_MIX": 0.07,
    "TP": 0.0
   },
   "contrib": {
    "PROD": 0.001,
    "CONSO": -0.017,
-   "X": -0.006,
-   "M": -0.006,
+   "X": -0.016,
+   "M": -0.005,
    "TP": -0.001
   },
   "mois": {

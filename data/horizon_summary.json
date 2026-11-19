@@ -14,16 +14,16 @@
   "COMBI": 0.257
  },
  "forecast_T3_h0": {
-  "RandomForest": 0.147,
-  "ElasticNet": 0.215,
-  "MIDAS": 0.211,
-  "COMBI": 0.229,
-  "TRIO": 0.191,
-  "MIH": 0.268
+  "RandomForest": 0.157,
+  "ElasticNet": 0.218,
+  "MIDAS": 0.213,
+  "COMBI": 0.222,
+  "TRIO": 0.196,
+  "MIH": 0.247
  },
  "forecast_T4_h1": {
-  "RandomForest": 0.145,
-  "ElasticNet": 0.177,
+  "RandomForest": 0.144,
+  "ElasticNet": 0.178,
   "MIDAS": 0.299,
   "COMBI": 0.207
  },
@@ -159,13 +159,13 @@
   },
   {
    "var": "Acquis d'exportations",
-   "coef": 0.033,
+   "coef": 0.031,
    "sd": 0.023,
    "dur": true
   },
   {
    "var": "Enquête : confiance des ménages, 1er mois",
-   "coef": 0.034,
+   "coef": 0.035,
    "sd": 0.026,
    "dur": false
   },

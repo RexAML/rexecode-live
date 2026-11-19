@@ -5,14 +5,14 @@
    "label": "fin septembre",
    "sub": "avant le trimestre",
    "date": "2026-09-30",
-   "pred": 0.264,
+   "pred": 0.263,
    "trio": 0.285,
-   "mih": 0.242,
+   "mih": 0.24,
    "base": 0.307,
    "blocks": {
     "Enquêtes de confiance": 0.0,
     "Production & consommation": -0.031,
-    "Commerce extérieur": 0.004,
+    "Commerce extérieur": 0.003,
     "Finance & prix": 0.0,
     "Élan du PIB passé": -0.016
    },
@@ -22,14 +22,14 @@
    "label": "fin octobre",
    "sub": "1er mois",
    "date": "2026-10-31",
-   "pred": 0.233,
+   "pred": 0.234,
    "trio": 0.226,
-   "mih": 0.24,
+   "mih": 0.242,
    "base": 0.307,
    "blocks": {
     "Enquêtes de confiance": -0.09,
     "Production & consommation": -0.029,
-    "Commerce extérieur": 0.004,
+    "Commerce extérieur": 0.005,
     "Finance & prix": -0.003,
     "Élan du PIB passé": 0.044
    },
@@ -42,11 +42,11 @@
     "commerce extérieur (Douanes) d'août",
     "production des services (IPS) d'août"
    ],
-   "delta": -0.031,
+   "delta": -0.029,
    "delta_blocks": {
     "Enquêtes de confiance": -0.09,
     "Production & consommation": 0.002,
-    "Commerce extérieur": 0.0,
+    "Commerce extérieur": 0.002,
     "Finance & prix": -0.003,
     "Élan du PIB passé": 0.06
    },
@@ -54,12 +54,12 @@
   }
  ],
  "total": {
-  "depart": 0.264,
-  "arrivee": 0.233,
+  "depart": 0.263,
+  "arrivee": 0.234,
   "blocs": {
    "Enquêtes de confiance": -0.09,
    "Production & consommation": 0.002,
-   "Commerce extérieur": 0.0,
+   "Commerce extérieur": 0.002,
    "Finance & prix": -0.003,
    "Élan du PIB passé": 0.06
   },
